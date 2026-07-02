@@ -272,11 +272,11 @@ or None if CONFIG is not a configuration of V's domain."
       ((%Valuation _ table) (map:lookup table config))))
 
   ;; The escape hatch Liftable instances are built from: transform every
-  ;; degree and reinterpret the result under a different calculus tag. This
-  ;; is the ONLY exported way to change a valuation's tag, so every
-  ;; cross-calculus flow is forced through a deliberate use of it — normally
-  ;; inside a Liftable instance, which is where the semantic justification
-  ;; belongs.
+  ;; degree and reinterpret the result under a different calculus tag.
+  ;; Retagging is by convention confined to Liftable instances, which is
+  ;; where the semantic justification belongs (tabulate is also
+  ;; phantom-polymorphic, so the confinement is protocol, not typing —
+  ;; docs/EXTENSION_PROTOCOL.md §2).
   (declare transform-retag ((Fraction -> Fraction) -> (Valuation :a) -> (Valuation :b)))
   (define (transform-retag f v)
     (match v

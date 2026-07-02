@@ -161,6 +161,19 @@ those calculi.
 - Suite *sensitivity* verified the same day: a deliberately lawless
   calculus (combine-op = subtraction) registered against the same generic
   suite produced **265 failures** — the suite can actually fail.
+- 2026-07-02, independent re-verification by a fresh-context subagent
+  against the committed state (bcc0718): clean-image build + suite run
+  reproduced `1176 checks, all passed` with exit 0; two injected mutants
+  (non-commutative combine-op; wrong marginal-neutral with correct ops)
+  produced 265 and 258 failures respectively; probability and possibility
+  arithmetic matched its independent hand calculations exactly; the
+  EXTENSION_PROTOCOL Route A example compiled verbatim from the doc and
+  passed 582/582 through the generic suite. Two doc nits it found (a
+  package-qualification typo in EXTENSION_PROTOCOL §6, and an
+  overstatement of `transform-retag` being the "only" retagging door,
+  given `tabulate` is phantom-polymorphic) are fixed in the follow-up
+  commit; wording now says the Liftable confinement is protocol, not
+  typing.
 - Phantom-type enforcement verified: compiling `(combine p q)` with
   `p : Valuation Prob`, `q : Valuation Poss` fails with
   `Expected type '(VALUATION PROB)' but got '(VALUATION POSS)'`; the same

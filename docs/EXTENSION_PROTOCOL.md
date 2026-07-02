@@ -103,7 +103,7 @@ the lift laws (§5). `marginalize` must implement intersection semantics
 | `tabulate` | `(List Variable) → (Config → Fraction) → (Valuation :calc)` | Build a valuation: your function is called once per configuration of the canonical form of the domain, values positionally aligned to it. |
 | `valuation-entries` | `(Valuation :calc) → (List (Tuple Config Fraction))` | All (config, degree) pairs, canonical order. |
 | `valuation-value` | `(Valuation :calc) → Config → (Optional Fraction)` | Degree at one configuration; `None` if the config isn't one of the domain's. |
-| `transform-retag` | `(Fraction → Fraction) → (Valuation :a) → (Valuation :b)` | Map every degree AND reinterpret under a new tag. **The only exported door between tags.** Use it only inside a `Liftable` instance (or a same-tag transformation like `normalize`, where `:a = :b` by annotation). |
+| `transform-retag` | `(Fraction → Fraction) → (Valuation :a) → (Valuation :b)` | Map every degree AND reinterpret under a new tag. **The designated door between tags**: use it only inside a `Liftable` instance (or a same-tag transformation like `normalize`, where `:a = :b` by annotation). (`tabulate` is phantom-polymorphic too, so retagging by rebuilding is *possible* — the discipline that all cross-calculus construction goes through a published `Liftable` instance is a convention this protocol asks you to keep.) |
 
 ```
 (define-class (Calculus :calc)
@@ -272,9 +272,10 @@ sample valuations — and one registration line.
      with your smart constructor, so the suite also witnesses that your
      constructor accepts sensible input).
 
-   For Route A calculi with degrees in `(0,1]`, reuse the existing helper:
-   `(tests::build-fleet my-constructor)` gives the standard 6-valuation
-   fleet over `{a,b}`, `{b,c}`, `{a,c}`, `{a,b,c}`, `{b}`, `{}` with
+   For Route A calculi with degrees in `(0,1]`, reuse the existing helper
+   (internal to the test package, hence the double colon):
+   `(parliament/tests::build-fleet my-constructor)` gives the standard
+   6-valuation fleet over `{a,b}`, `{b,c}`, `{a,c}`, `{a,b,c}`, `{b}`, `{}` with
    deterministic pseudo-random degrees `k/16 ∈ (0,1]`. If your degree set
    differs, write your own fleet in the same shape.
 

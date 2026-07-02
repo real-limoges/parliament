@@ -260,10 +260,14 @@ Enforced at compile time:
   `:v → :v → :v` and `:v → domain → :v`; `(Valuation Prob)` and
   `(Valuation Poss)` are distinct types by the phantom tag, so any
   cross-calculus dataflow without an explicit `lift` fails unification.
-- **Lift explicitness.** The only exported way to change a tag is
-  `transform-retag`, and the only sanctioned wrapper for it is a `Liftable`
-  instance; Coalton's orphan-instance rule forces that instance to live in
-  a package owning one of the endpoint types.
+- **Lift explicitness.** Every cross-calculus *dataflow* must pass through
+  an explicit `lift` call resolved by a published `Liftable` instance, and
+  Coalton's orphan-instance rule forces that instance to live in a package
+  owning one of the endpoint types. (Cross-calculus *construction* — 
+  rebuilding a table under a different tag via the phantom-polymorphic
+  `tabulate` or `transform-retag` — is not type-preventable; the convention
+  that it happens only inside `Liftable` instances is enforced by protocol,
+  docs/EXTENSION_PROTOCOL.md §2/§5.)
 
 Deliberately *not* type-enforced, with runtime checks or documented
 preconditions instead:
